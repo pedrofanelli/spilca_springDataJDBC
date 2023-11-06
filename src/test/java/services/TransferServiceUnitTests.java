@@ -1,6 +1,7 @@
 package services;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
 
 import java.math.BigDecimal;
@@ -46,6 +47,10 @@ public class TransferServiceUnitTests {
 
 	    // we call the method we want with all the data
 	    transferService.transferMoney(sender.getId(), destination.getId(), new BigDecimal(100));
+	    
+	    verify(accountRepository).changeAmount(1, new BigDecimal(900));
+	    verify(accountRepository).changeAmount(2, new BigDecimal(1100));
+
 	    
 	}
 	
