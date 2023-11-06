@@ -36,10 +36,10 @@ public class TransferServiceUnitTests {
 	    //we use the .given() method to tell how to behave a method from a mock object
 	    // remember in the service we used the repository to find 2 accounts
 	    Account sender = new Account();
-	    sender.setId(1);
+	    sender.setId(3);
 	    sender.setAmount(new BigDecimal(1000));
 	    Account destination = new Account();
-	    destination.setId(2);
+	    destination.setId(4);
 	    destination.setAmount(new BigDecimal(1000));
 	    
 	    given(accountRepository.findById(sender.getId())).willReturn(Optional.of(sender));
@@ -48,8 +48,9 @@ public class TransferServiceUnitTests {
 	    // we call the method we want with all the data
 	    transferService.transferMoney(sender.getId(), destination.getId(), new BigDecimal(100));
 	    
-	    verify(accountRepository).changeAmount(1, new BigDecimal(900));
-	    verify(accountRepository).changeAmount(2, new BigDecimal(1100));
+	    // we verify that these methods were called with the corresponding arguments
+	    verify(accountRepository).changeAmount(3, new BigDecimal(900));
+	    verify(accountRepository).changeAmount(4, new BigDecimal(1100));
 
 	    
 	}
