@@ -3,6 +3,7 @@ package services;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -83,6 +84,23 @@ public class TransferServiceUnitTests {
 	    verify(accountRepository).changeAmount(4, new BigDecimal(1100));
 
 	    
+	}
+	
+	
+	@Test
+	@DisplayName("Test the exception launch when the destination account is not found.")
+	public void moneyTransferDestinationAccountNotFound() throws SQLException {
+		Account sender = new Account();
+	    sender.setId(3);
+	    sender.setAmount(new BigDecimal(1000));
+	    given(accountRepository.findById(sender.getId())).willReturn(Optional.of(sender));
+	    
+	    // seteamos que devuelva vacio al buscar el id 4
+	    given(accountRepository.findById(4L)).willReturn(Optional.empty());
+	    
+	    // chekeamos que la excepción haya sido lanzada
+	    assertThrows(RuntimeException.class,()->transferService.transferMoney(3, 4, new BigDecimal(100)));
+
 	}
 	
 }
