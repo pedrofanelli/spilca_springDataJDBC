@@ -1,7 +1,10 @@
 package services;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.any;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -100,6 +103,9 @@ public class TransferServiceUnitTests {
 	    
 	    // chekeamos que la excepción haya sido lanzada
 	    assertThrows(RuntimeException.class,()->transferService.transferMoney(3, 4, new BigDecimal(100)));
+	    
+	    // checkeamos que el método changeAmount nunca es ejecutado
+	    verify(accountRepository, never()).changeAmount(anyLong(),any());
 
 	}
 	
