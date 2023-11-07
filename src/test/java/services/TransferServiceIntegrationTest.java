@@ -21,7 +21,7 @@ import repositories.AccountRepository;
  * we will use the actual objects, not the mocks, thats why we use MockBean, we 
  * actually generate the bean. Because we want to test that it actually all works
  */
-@SpringBootTest
+@SpringBootTest(classes=com.example.demo.SpilcaSpringDataJdbcApplication.class)
 public class TransferServiceIntegrationTest {
 
 	@MockBean
@@ -40,8 +40,8 @@ public class TransferServiceIntegrationTest {
 	    destination.setId(4);
 	    destination.setAmount(new BigDecimal(1000));
 	    
-	    given(accountRepository.findById(sender.getId())).willReturn(Optional.of(sender));
-	    given(accountRepository.findById(destination.getId())).willReturn(Optional.of(destination));
+	    given(accountRepository.findById(3L)).willReturn(Optional.of(sender));
+	    given(accountRepository.findById(4L)).willReturn(Optional.of(destination));
 	    
 	    transferService.transferMoney(sender.getId(), destination.getId(), new BigDecimal(100));
 	    
