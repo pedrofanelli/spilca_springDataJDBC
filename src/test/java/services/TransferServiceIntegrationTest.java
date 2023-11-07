@@ -1,5 +1,7 @@
 package services;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,4 +21,10 @@ public class TransferServiceIntegrationTest {
 	
 	@Autowired
 	private TransferService transferService;
+	
+	@Test
+	@DisplayName("Testeo de la transferencia de dinero de forma integral")
+	public void transferServiceTransferAmountIntegrationTest() {
+		
+	}
 }
