@@ -1,11 +1,19 @@
 package services;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import models.Account;
 import repositories.AccountRepository;
 
 /*
@@ -24,7 +32,20 @@ public class TransferServiceIntegrationTest {
 	
 	@Test
 	@DisplayName("Testeo de la transferencia de dinero de forma integral")
-	public void transferServiceTransferAmountIntegrationTest() {
-		
+	public void transferServiceTransferAmountIntegrationTest() throws SQLException {
+		Account sender = new Account();
+	    sender.setId(3);
+	    sender.setAmount(new BigDecimal(1000));
+	    Account destination = new Account();
+	    destination.setId(4);
+	    destination.setAmount(new BigDecimal(1000));
+	    
+	    given(accountRepository.findById(sender.getId())).willReturn(Optional.of(sender));
+	    given(accountRepository.findById(destination.getId())).willReturn(Optional.of(destination));
+	    
+	    transferService.transferMoney(sender.getId(), destination.getId(), new BigDecimal(100));
+	    
+	    verify(accountRepository).changeAmount(3, new BigDecimal(900));
+	    verify(accountRepository).changeAmount(4, new BigDecimal(1100));
 	}
 }
